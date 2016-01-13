@@ -1,0 +1,54 @@
+﻿<!--placeCount css-->
+
+<link rel="stylesheet" href="lib/select2/select2.css">
+<div class="page-heading">
+    <h3>场所数据量统计</h3>
+</div>
+<!-- page heading end-->
+<!--body wrapper start-->
+<!-- Preloader -->
+<div class="wrapper">
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group w-place">
+                                <label class="col-sm-2 control-label title-w4">起始时间</label>
+                                <div class="col-sm-2">
+                                    <select class="select2" required data-placeholder="初始化数据" name="SYear" id="SYear">
+                                    </select>
+                                </div>
+                                <label class="col-sm-1 control-label tc title-w1">年</label>
+                                <div class="col-sm-2">
+                                    <select class="select2" required name="SMonth" id="SMonth"></select>
+                                </div>
+                                <label class="col-sm-1 control-label tc title-w1">月</label>
+                                <div class="col-sm-2">
+                                    <select class="select2" required name="SDay" id="SDay"></select>
+                                </div>
+                                <label class="col-sm-1 control-label tc title-w1">日</label>
+                                <label class="col-sm-1 control-label">商户数</label>
+                                <div class="col-sm-2">
+                                    <select class="select2 select3" required data-placeholder="1-10" id="pagination">
+                                        <option value=""></option>
+                                        <option value="1">1-10</option>
+                                        <option value="2">11-20</option>
+                                        <option value="3">21-30</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary queryBtn" id="queryBtn">查询</button>
+                        </div>
+                    </div>
+                    <span class="tools pull-right"></span>
+                </header>
+                <div class="panel-body main" id="main"></div>
+            </section>
+        </div>
+    </div>
+</div>
+<script src="js/business/placeCountBar.js"></script>
+<script type="text/javascript" src="js/business/placeCount.js"></script>
+<!-- 测试 -->

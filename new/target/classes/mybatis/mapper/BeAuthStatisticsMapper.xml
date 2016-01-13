@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linktech.mybatis.model.BeAuthStatistics">
+
+    <resultMap id="beAuthStatisticsResultMap" type="BeAuthStatistics">
+        <id property="id" column="id"/>
+        <result property="enterpriseId" column="enterpriseId"/>
+        <result property="enterpriseName" column="enterpriseName"/>
+        <result property="total" column="total"/>
+        <result property="authSum" column="authSum"/>
+        <result property="showSum" column="showSum"/>
+        <result property="clickSum" column="clickSum"/>
+        <result property="ubntId" column="ubntId"/>
+        <result property="countDate" column="countDate"/>
+    </resultMap>
+
+    <select id="findById" parameterType="Integer" resultMap="beAuthStatisticsResultMap">
+		select * from be_authstatistics where id = #{id}
+	</select>
+
+    <select id="findByWhere" parameterType="java.util.Map" resultMap="beAuthStatisticsResultMap">
+        select * from be_authstatistics where 1=1
+        <if test="enterpriseId != null and enterpriseId != 0">
+            and enterpriseId = #{enterpriseId}
+        </if>
+        <if test="enterpriseName != null and enterpriseName != ''">
+            and enterpriseName = #{enterpriseName}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and t.countdate &gt;= str_to_date(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and t.countdate &lt;= str_to_date(#{endTime},'%Y-%m-%d')
+        </if>
+    </select>
+
+    <!--  -->
+    <select id="findForEnterprise" resultMap="beAuthStatisticsResultMap" parameterType="java.util.Map">
+        SELECT enterpriseid,
+        enterprisename,
+        SUM(total) as total,
+        SUM(authsum) as authsum,
+        SUM(showsum) as showsum,
+        SUM(clicksum) as clicksum
+        FROM be_authstatistics WHERE 1=1
+        <if test="startTime != null and startTime != ''">
+            and countdate &gt;= str_to_date(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and countdate &lt;= str_to_date(#{endTime},'%Y-%m-%d')
+        </if>
+        GROUP BY enterpriseid
+        ORDER BY SUM(authsum) desc
+        LIMIT #{startRow},#{pageSize}
+    </select>
+
+    <!--  -->
+    <select id="findForDate" resultMap="beAuthStatisticsResultMap" parameterType="java.util.Map">
+        SELECT
+        IFNULL(SUM(total),0) as total,
+        IFNULL(SUM(authsum),0) as authsum ,
+        IFNULL(SUM(showsum),0) as showsum,
+        IFNULL(SUM(clicksum),0) as clicksum
+        FROM be_authstatistics
+        WHERE 1=1
+        <if test="startTime != null and startTime != ''">
+            and countdate &gt;= str_to_date(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and countdate &lt;= str_to_date(#{endTime},'%Y-%m-%d')
+        </if>
+    </select>
+
+    <!-- 按日统计 -->
+    <select id="findForDay" resultMap="beAuthStatisticsResultMap" parameterType="java.util.Map">
+        SELECT
+        IFNULL(SUM(total),0) as total,
+        IFNULL(SUM(authsum),0) as authsum,
+        IFNULL(SUM(showsum),0) as showsum,
+        IFNULL(SUM(clicksum),0) as clicksum,
+        countdate
+        FROM be_authstatistics
+        WHERE 1=1
+        <if test="startTime != null and startTime != ''">
+            and countdate &gt;= str_to_date(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and countdate &lt;= str_to_date(#{endTime},'%Y-%m-%d')
+        </if>
+        GROUP BY countdate
+        ORDER BY countdate ASC
+    </select>
+
+    <!-- 按周统计 -->
+    <select id="findForWeek" resultType="com.linktech.portal.count.model.CountEntity" parameterType="java.util.Map">
+        SELECT
+        IFNULL(SUM(total),0) as total,
+        IFNULL(SUM(authsum),0) as authsum ,
+        IFNULL(SUM(showsum),0) as showsum,
+        IFNULL(SUM(clicksum),0) as clicksum,
+        WEEKOFYEAR(countdate) as week,
+        DATE_FORMAT(countdate,'%Y') as year
+        FROM be_authstatistics
+        WHERE 1=1
+        <if test="startTime != null and startTime != ''">
+            and countdate &gt;= str_to_date(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and countdate &lt;= str_to_date(#{endTime},'%Y-%m-%d')
+        </if>
+        GROUP BY WEEKOFYEAR(countdate),DATE_FORMAT(countdate,'%Y')
+        ORDER BY DATE_FORMAT(countdate,'%Y') ASC,WEEKOFYEAR(countdate) ASC
+    </select>
+
+    <!-- 按月统计 -->
+    <select id="findForMonth" resultType="com.linktech.portal.count.model.CountEntity" parameterType="java.util.Map">
+        SELECT
+        IFNULL(SUM(total),0) as total,
+        IFNULL(SUM(authsum),0) as authsum ,
+        IFNULL(SUM(showsum),0) as showsum,
+        IFNULL(SUM(clicksum),0) as clicksum,
+        DATE_FORMAT(countdate,'%Y-%m') as month
+        FROM be_authstatistics
+        WHERE 1=1
+        <if test="startTime != null and startTime != ''">
+            and countdate &gt;= str_to_date(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and countdate &lt;= str_to_date(#{endTime},'%Y-%m-%d')
+        </if>
+        GROUP BY DATE_FORMAT(countdate,'%Y-%m')
+        ORDER BY DATE_FORMAT(countdate,'%Y-%m') ASC
+    </select>
+
+    <!-- 按年统计 -->
+    <select id="findForYear" resultType="com.linktech.portal.count.model.CountEntity" parameterType="java.util.Map">
+        SELECT
+        IFNULL(SUM(total),0) as total,
+        IFNULL(SUM(authsum),0) as authsum,
+        IFNULL(SUM(showsum),0) as showsum,
+        IFNULL(SUM(clicksum),0) as clicksum,
+        DATE_FORMAT(countdate,'%Y') as year
+        FROM be_authstatistics
+        WHERE 1=1
+        <if test="startTime != null and startTime != ''">
+            and countdate &gt;= str_to_date(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and countdate &lt;= str_to_date(#{endTime},'%Y-%m-%d')
+        </if>
+        GROUP BY DATE_FORMAT(countdate,'%Y')
+        ORDER BY DATE_FORMAT(countdate,'%Y') ASC
+    </select>
+
+    <!-- 按商户和时间统计 -->
+    <select id="findForEnterpriseTime" resultType="com.linktech.portal.count.model.CountEntity"
+            parameterType="java.util.Map">
+        SELECT
+        enterpriseid,
+        enterprisename,
+        IFNULL(SUM(total),0) as total,
+        IFNULL(SUM(authsum),0) as authsum,
+        IFNULL(SUM(showsum),0) as showsum,
+        IFNULL(SUM(clicksum),0) as clicksum,
+        DATE_FORMAT(countdate,#{format}) as year
+        FROM be_authstatistics
+        WHERE 1=1
+        <if test="startTime != null and startTime != ''">
+            and countdate &gt;= str_to_date(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and countdate &lt;= str_to_date(#{endTime},'%Y-%m-%d')
+        </if>
+        GROUP BY enterpriseid,DATE_FORMAT(countdate,#{format})
+        <if test="enterpriseId != null and enterpriseId != 0">
+            HAVING enterpriseid = #{enterpriseId}
+        </if>
+        ORDER BY countdate ASC
+    </select>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="BeAuthStatistics">
+	   insert into be_authstatistics (
+	     id,
+	     enterpriseId,
+	     enterpriseName,
+	     total,
+	     authSum,
+	     showSum,
+	     clickSum,
+	     ubntId,
+	     countDate
+	   ) values (
+	     #{id},
+	     #{enterpriseId},
+	     #{enterpriseName},
+	     #{total},
+	     #{authSum},
+	     #{showSum},
+	     #{clickSum},
+	     #{ubntId},
+	     #{countDate}
+	   )
+	</insert>
+
+    <select id="findForStatisticsShowClick" parameterType="java.util.Map" resultMap="beAuthStatisticsResultMap">
+		SELECT enterprise.id as enterpriseId,
+			   enterprise.name as enterpriseName, 
+			   count(*) as showSum
+		FROM be_ad_hitlog ad_hitlog
+		LEFT JOIN be_loginlog login_log ON ad_hitlog.loginlogid = login_log.id
+		LEFT JOIN be_enterprise enterprise ON enterprise.id = login_log.enterprise_id
+		LEFT JOIN be_partner partner ON partner.id = ad_hitlog.partner_id
+		LEFT JOIN be_adbasicinfo adbasicinfo ON adbasicinfo.id = ad_hitlog.adbasicinfo_id
+		LEFT JOIN be_oneindustrycategory onecategory ON onecategory.id = adbasicinfo.onecategory
+		LEFT JOIN be_twoindustrycategory twocategory ON twocategory.id = adbasicinfo.twocategory
+		WHERE ad_hitlog.create_time &gt;= UNIX_TIMESTAMP(#{startTime}) and ad_hitlog.create_time &lt;= UNIX_TIMESTAMP(#{endTime})
+		AND ad_hitlog.typeid = #{typeid}
+		GROUP BY enterprise.id
+	</select>
+
+    <select id="findForStatisticsAuth" parameterType="java.util.Map" resultMap="beAuthStatisticsResultMap">
+		SELECT t.enterprise_id as enterpriseId,
+			   enterprise.name as enterpriseName,
+			   count(*) as showSum
+		FROM be_loginlog t
+		LEFT JOIN be_enterprise enterprise ON enterprise.id = t.enterprise_id
+		WHERE t.create_time &gt;= UNIX_TIMESTAMP(#{startTime}) and t.create_time &lt;= UNIX_TIMESTAMP(#{endTime})
+		GROUP BY t.enterprise_id
+	</select>
+
+</mapper>

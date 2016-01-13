@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.linktech.mybatis.model.BeEnterprise">
+
+    <resultMap id="beEnterpriseResultMap" type="BeEnterprise">
+        <id property="id" column="id"/>
+        <result property="channelId" column="channel_id"/>
+        <result property="name" column="name"/>
+        <result property="onecategory" column="onecategory"/>
+        <result property="twocategory" column="twocategory"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="address" column="address"/>
+        <result property="linkman" column="linkman"/>
+        <result property="tel" column="tel"/>
+        <result property="remark" column="remark"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="authType" column="authtype"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="beEnterpriseResultMap">
+	   select * from be_enterprise
+	</select>
+
+</mapper> 

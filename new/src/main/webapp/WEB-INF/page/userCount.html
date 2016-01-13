@@ -1,0 +1,102 @@
+﻿<!--pickers css-->
+<link rel="stylesheet" type="text/css" href="lib/bootstrap-datepicker/css/datepicker-custom.css"/>
+<link rel="stylesheet" type="text/css" href="lib/bootstrap-daterangepicker/daterangepicker-bs3.css"/>
+<link rel="stylesheet" type="text/css" href="lib/bootstrap-datetimepicker/css/datetimepicker-custom.css"/>
+<link rel="stylesheet" href="lib/select2/select2.css">
+
+<div class="page-heading">
+    <h3>用户数量统计</h3>
+</div>
+<!-- page heading end-->
+<!--body wrapper start-->
+<div class="wrapper">
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading user-heading">
+                    <div class="row">
+                        <div class="form-group w-user">
+                            <label class="col-sm-2 col-sm-2 control-label title-w4">场所选择</label>
+                            <div class="col-sm-2 selectreponsive">
+                                <select class="select3" required data-placeholder="1-10" id="placeSelect"
+                                        data-placeholder="初始化数据"></select>
+                                <span class="inputError  error errorSel ">请选择场所</span>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="radiogroup" id="selector">
+                                    <div class="radio-item">
+                                        <input type="radio" name="selectType" value="1" checked class="radioinput">日
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" name="selectType" value="2" class="radioinput">月
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" name="selectType" value="3" class="radioinput">年
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeBox">
+                                <label class="col-sm-2 control-label title-w4">时间选择</label>
+                                <div class="col-sm-2 time-sm-2">
+
+                                    <div class="input-group date form_datetime-adv" id="form_datetime-start"
+                                         data-link-field="dtp_StrartInput">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default date-set" type="button"><i
+                                                    class="fa fa-calendar"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" size="16" readonly="" class="form-control">
+                                        <input type="hidden" id="dtp_StrartInput" value=""/>
+                                        <div class="input-group-btn">
+                                            <button class="btn  btn-default date-reset" type="button"><i
+                                                    class="fa fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <span class="inputError  error errorS ">请选择结束时间,不能为空</span>
+                                </div>
+                                <div class="col-sm-1 control-label title-w1">至</div>
+                                <div class="col-sm-2 time-sm-2">
+                                    <div class="input-group date form_datetime-adv" id="form_datetime-end"
+                                         data-link-field="dtp_EndInput">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default date-set" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" size="16" readonly="" class="form-control">
+                                        <input type="hidden" id="dtp_EndInput" value=""/>
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default date-reset" type="button">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+                                    <span class="inputError  error errorE ">请选择结束时间,不能为空</span>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary queryBtn" id="userqueryBtn">查询</button>
+                        </div>
+
+                    </div>
+
+                    <span class="tools pull-right"></span>
+                </header>
+                <div class="panel-body main" id="main2"></div>
+            </section>
+        </div>
+    </div>
+</div>
+<script src="lib/select2/select2.min.js"></script>
+<script type="text/javascript" src="lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
+<script type="text/javascript" src="lib/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+<!--pickers plugins-->
+<script type="text/javascript" src="js/business/pickers-init.js"></script>
+<script src="js/business/userCountBarInit.js"></script>
+<script src="js/business/userCount.js"></script>
+    

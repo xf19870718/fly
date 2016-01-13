@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!-- 是否启用全局映射器缓存 -->
+        <!-- 开启缓存,默认就是开启的,2层开关,需要在Mapper文件中也指定 cache 标签才会真正使用缓存 -->
+        <setting name="cacheEnabled" value="true"/>
+        <!-- 使用列标签代替列名 -->
+        <setting name="useColumnLabel" value="true"/>
+        <!-- 设置超时时间 -->
+        <setting name="defaultStatementTimeout" value="600000"/>
+
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <!-- Mybatis对Map的解析生成, 如果值(value)为null的话,那么key也不会被加入到map中. -->
+        <setting name="callSettersOnNulls" value="true"/>
+    </settings>
+    <!-- 	<plugins>
+            <plugin
+                interceptor="com.github.miemiedev.mybatis.paginator.OffsetLimitInterceptor">
+                <property name="dialectClass" value="com.github.miemiedev.mybatis.paginator.dialect.MySQLDialect" />
+            </plugin>
+        </plugins> -->
+
+</configuration>

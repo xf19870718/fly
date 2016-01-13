@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - zs_smartrouter@localhost" uuid="f0bb1c74-12ef-445d-8231-49c4b814a573">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>zs_smartrouter.*</schema-pattern>
+      <default-schemas>zs_smartrouter.*</default-schemas>
+    </data-source>
+  </component>
+</project>
